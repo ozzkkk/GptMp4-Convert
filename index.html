@@ -12,14 +12,13 @@
 </head>
 <body>
 <main class="app">
-<header><div class="logo">▶</div><div class="brand"><h1>Film Dönüştürücü</h1><p>Videolarını cihazında dönüştür</p></div><span class="local">● Yerel işlem</span></header>
+<header><div class="logo">▶</div><div class="brand"><h1>Film Dönüştürücü</h1><p>Videolarını cihazında dönüştür</p></div><span class="local">V12.0</span></header>
 
 <section class="panel">
  <div class="section-head"><h2>1. Videoları seç</h2><span class="step-note">Toplu seçim desteklenir</span></div>
  <div class="pickers">
   <button id="folderBtn" class="primary" type="button">📁 Klasör seç</button>
-  <label class="secondary file-picker" for="fileInput">＋ Dosyalardan video seç</label>
-  <input id="fileInput" class="file-input" type="file" accept="video/*,.mp4,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m2ts,.m4v,.webm,.mpeg,.mpg,.3gp" multiple>
+  <label class="secondary file-picker"><span>＋ Dosyalardan video seç</span><input id="fileInput" class="file-input-overlay" type="file" accept="video/*,.mp4,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m2ts,.m4v,.webm,.mpeg,.mpg,.3gp" multiple></label>
  </div>
  <p class="hint" id="folderHint">Dosyalardan video seç düğmesi telefonun dosya seçicisini açar. Birden fazla video seçebilirsin. Klasör seçersen çıktılar da aynı klasöre kaydedilebilir.</p>
  <div class="queue-head"><strong>Dönüşüm listesi</strong><span id="queueCount">0 video</span></div>
@@ -49,5 +48,5 @@
 </section>
 <footer>Videolar cihazından dışarı gönderilmez. Büyük videolarda telefonun belleği ve işlem gücü sınırlayıcı olabilir.</footer>
 </main>
-<script type="module" src="./app.js?v=11"></script>
+<script type="module" src="./app.js?v=12"></script>
 </body></html>
