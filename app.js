@@ -48,9 +48,14 @@ async function addFiles(files,handles=[]){
  renderList();
  status.textContent=added?`${added} video dönüşüm listesine eklendi.${skipped?` ${skipped} video olmayan dosya atlandı.`:''}`:skipped?`${skipped} dosya video olmadığı için eklenmedi.`:'Yeni video eklenmedi.'};
 }
-$('filesBtn').onclick=()=>$('fileInput').click();
-$('addMoreBtn').onclick=()=>$('fileInput').click();
-fileInput.onchange=async()=>{await addFiles([...fileInput.files]);fileInput.value=''};
+
+$('addMoreBtn').onclick=()=>fileInput.click();
+fileInput.addEventListener('change',async()=>{
+ const picked=[...fileInput.files];
+ if(picked.length) await addFiles(picked);
+ else status.textContent='Dosya seçilmedi.';
+ fileInput.value='';
+});
 $('clearBtn').onclick=()=>{if(busy)return;selected=[];renderList();status.textContent='Dönüşüm listesi temizlendi.';results.replaceChildren()};
 $('folderBtn').onclick=async()=>{
  if(!window.showDirectoryPicker){status.textContent='Bu tarayıcı klasör erişimini desteklemiyor. Dosyalardan video seç düğmesini kullan.';return}
