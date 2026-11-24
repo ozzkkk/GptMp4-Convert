@@ -1,19 +1,20 @@
-FILM DÖNÜŞTÜRÜCÜ — GITHUB PAGES HAZIR SÜRÜM (WORKER DÜZELTMESİ)
+FILM DÖNÜŞTÜRÜCÜ — WORKER ORIGIN FIX V4
 
-Bu sürüm FFmpeg WebAssembly worker dosyasını CDN'den alıp Blob URL olarak yükler. Böylece farklı origin kaynaklı worker kurma hatasını önlemeyi amaçlar.
+Bu sürüm FFmpeg'in ana Worker giriş dosyasını GitHub Pages alan adından (`./worker.js`) başlatır. Yerel worker, resmi FFmpeg worker modülünü jsDelivr'den import eder. Böylece Worker constructor'a doğrudan CDN adresi verilmez.
 
-GitHub deponun ana dizinindeki dosyaları aşağıdaki 7 dosyayla değiştir:
+GitHub deponun ana dizinindeki dosyaları bu ZIP'teki dosyalarla değiştir:
 - index.html
 - app.js
 - style.css
 - manifest.webmanifest
 - sw.js
+- worker.js (YENİ DOSYA)
 - icon.svg
 - README.txt
 
-ÖNEMLİ: Güncellemeden sonra siteyi Chrome'da tamamen kapatıp yeniden aç. Hâlâ eski sürüm görünürse site verilerini/önbelleğini temizle veya gizli sekmede dene.
+ÖNEMLİ:
+1. worker.js dosyasını da mutlaka GitHub ana dizinine yükle.
+2. Commit/publish sonrası Chrome'da sayfayı tamamen kapatıp tekrar aç.
+3. Eski service worker önbelleği kalırsa siteyi gizli sekmede açarak dene veya site verilerini temizle.
 
-- İlk dönüştürmede internet bağlantısı gerekir.
-- MP4: H.264/AAC, yuv420p.
-- Orijinal dosya silme yalnızca desteklenen tarayıcıda klasör seçilirse çalışır.
-- Telefonlarda büyük dosyalar bellek ve işlemci sınırına takılabilir.
+İlk FFmpeg çekirdek indirmesinde internet gerekir. MP4 profili H.264/AAC ve yuv420p kullanır. Orijinal silme yalnızca desteklenen klasör erişimi modunda çalışır.
