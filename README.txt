@@ -1,20 +1,28 @@
-FILM DÖNÜŞTÜRÜCÜ — WORKER ORIGIN FIX V4
+MP4 DONUSTURUCU — GITHUB PAGES CACHE FIX V5
 
-Bu sürüm FFmpeg'in ana Worker giriş dosyasını GitHub Pages alan adından (`./worker.js`) başlatır. Yerel worker, resmi FFmpeg worker modülünü jsDelivr'den import eder. Böylece Worker constructor'a doğrudan CDN adresi verilmez.
+Bu güncelleme, önceki Service Worker'ın eski cache kayıtlarını kullanmaya devam etmesi ihtimalini giderir.
 
-GitHub deponun ana dizinindeki dosyaları bu ZIP'teki dosyalarla değiştir:
+YÜKLEME:
+1. ZIP içindeki 7 dosyanın tamamını GitHub deposunun ana dizinine yükleyip eskilerin üzerine yaz.
+2. Commit işlemini tamamla ve GitHub Pages'in yayınlanmasını bekle.
+3. Sayfayı Chrome'da kapatıp tekrar aç. Bu sürüm Service Worker etkinleştiğinde eski uygulama cache'lerini temizler.
+4. İlk açılışta internet bağlantısı açık olsun.
+
+Dosyalar:
 - index.html
 - app.js
 - style.css
 - manifest.webmanifest
 - sw.js
-- worker.js (YENİ DOSYA)
+- worker.js
 - icon.svg
 - README.txt
 
-ÖNEMLİ:
-1. worker.js dosyasını da mutlaka GitHub ana dizinine yükle.
-2. Commit/publish sonrası Chrome'da sayfayı tamamen kapatıp tekrar aç.
-3. Eski service worker önbelleği kalırsa siteyi gizli sekmede açarak dene veya site verilerini temizle.
+Teknik değişiklik:
+- Uygulama scripti app.js?v=5 olarak sürümlendi.
+- Worker adresi sayfanın kendi alan adına sabitlendi.
+- Service Worker artık sadece kendi cache sürümünden okur.
+- Aktivasyonda önceki cache sürümleri silinir.
+- worker.js çevrimdışı uygulama dosyaları arasına eklendi.
 
-İlk FFmpeg çekirdek indirmesinde internet gerekir. MP4 profili H.264/AAC ve yuv420p kullanır. Orijinal silme yalnızca desteklenen klasör erişimi modunda çalışır.
+Not: Worker dosyasının aynı-origin başlangıcı düzeltilmiştir; worker modülünün CDN'den import edilebilmesi için ilk çalıştırmada internet ve CDN erişimi gerekir. Telefon üzerinde son doğrulama testi yapılmalıdır.
