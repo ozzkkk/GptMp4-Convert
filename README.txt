@@ -1,10 +1,13 @@
-MP4 DONUSTURUCU — HIZLANDIRMA V8
+MP4 DONUSTURUCU — CONTAINER FIX V9
 
-MP4 için iki aşamalı işlem:
-1. Önce kayıpsız remux denenir: video/ses kodekleri kopyalanır, sadece kapsayıcı MP4 yapılır. H.264/AAC gibi MP4 uyumlu kaynaklarda çok hızlıdır ve kalite kaybı yoktur.
-2. Remux başarısız olursa H.264/AAC yeniden kodlama yapılır. Telefonlarda daha hızlı olması için x264 preset ultrafast seçilmiştir; bu modda dosya boyutu artabilir.
+Bu sürüm dosya adındaki uzantıya güvenmek yerine dosyanın başındaki baytlardan kapsayıcıyı tanır:
+- MPEG-TS için 188 bayt aralıklı 0x47 senkron baytları kontrol edilir.
+- MP4 için ftyp kutusu kontrol edilir.
+- Liste üzerinde dosya adı ve gerçek içerik türü ayrı gösterilir.
 
-Diğer formatların mevcut dönüştürme profilleri korunmuştur.
+TS içerikli dosyalar FFmpeg'e geçici .ts adıyla verilir ve `-f mpegts` ile açıkça tanıtılır.
+MP4 çıkışında önce `-c copy` ile yeniden kodlamadan kayıpsız aktarım yapılır. Bu dosya için H.264/AAC akışları MP4'e uyumludur; yeniden kodlama gerekmemelidir.
+Diğer formatlarda mevcut dönüştürme profilleri kullanılır.
 
-GitHub Pages ana dizininde ZIP'teki dosyaları değiştirin: index.html, app.js, style.css, manifest.webmanifest, sw.js, worker.js, icon.svg.
-Bu sürüm gerçek telefonda test edilmeden başarı garantisi vermez. Büyük dosyalar için cihaz belleği ve işlemci sınırları geçerlidir.
+GitHub Pages ana dizinindeki dosyaları ZIP'teki dosyalarla değiştir: index.html, app.js, style.css, manifest.webmanifest, sw.js, worker.js, icon.svg.
+İlk açılışta FFmpeg çekirdeği için internet gerekir. Telefon performansı cihazda test edilmelidir.
