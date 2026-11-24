@@ -1,13 +1,13 @@
-MP4 DONUSTURUCU — CONTAINER FIX V9
+MP4 DÖNÜŞTÜRÜCÜ V10 — TOPLU İŞLEM
 
-Bu sürüm dosya adındaki uzantıya güvenmek yerine dosyanın başındaki baytlardan kapsayıcıyı tanır:
-- MPEG-TS için 188 bayt aralıklı 0x47 senkron baytları kontrol edilir.
-- MP4 için ftyp kutusu kontrol edilir.
-- Liste üzerinde dosya adı ve gerçek içerik türü ayrı gösterilir.
+Değişiklikler:
+- Video seçimi artık accept filtresi kullanmıyor; Android dosya seçicisi açılır. Seçilen dosyalar uygulama içinde video MIME türü/uzantısıyla filtrelenir.
+- Birden fazla dosya seçilerek toplu dönüşüm listesine eklenebilir.
+- Her satırda orijinal dosya adı, algılanan içerik türü, hedef çıktı adı ve durum görünür.
+- Başarılı dönüşümde satırda yeşil tik ve sonuç listesinde çıktı adı gösterilir.
+- Klasör seçilirse çıktı doğrudan aynı klasöre yazılır; bu yolda Chrome indirme bildirimi oluşmaz.
+- Normal dosya seçimiyle indirilen dosyada Chrome'un kendi indirme bildirimi web sayfası tarafından kapatılamaz; bu durumda indirme bildirimi tarayıcı tarafından gösterilir.
 
-TS içerikli dosyalar FFmpeg'e geçici .ts adıyla verilir ve `-f mpegts` ile açıkça tanıtılır.
-MP4 çıkışında önce `-c copy` ile yeniden kodlamadan kayıpsız aktarım yapılır. Bu dosya için H.264/AAC akışları MP4'e uyumludur; yeniden kodlama gerekmemelidir.
-Diğer formatlarda mevcut dönüştürme profilleri kullanılır.
-
-GitHub Pages ana dizinindeki dosyaları ZIP'teki dosyalarla değiştir: index.html, app.js, style.css, manifest.webmanifest, sw.js, worker.js, icon.svg.
-İlk açılışta FFmpeg çekirdeği için internet gerekir. Telefon performansı cihazda test edilmelidir.
+Kurulum:
+ZIP içindeki 8 dosyayı GitHub deposunun ana dizinine yükleyip eskilerin üzerine yaz:
+index.html, app.js, style.css, manifest.webmanifest, sw.js, worker.js, icon.svg, README.txt.

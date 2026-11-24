@@ -13,22 +13,41 @@
 <body>
 <main class="app">
 <header><div class="logo">▶</div><div class="brand"><h1>Film Dönüştürücü</h1><p>Videolarını cihazında dönüştür</p></div><span class="local">● Yerel işlem</span></header>
+
 <section class="panel">
-<h2>1. Videoları seç</h2>
-<div class="pickers"><button id="folderBtn" class="primary">📁 Klasör seç</button><button id="filesBtn" class="secondary">＋ Video seç</button><input id="fileInput" type="file" accept="video/*,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m4v,.webm" multiple hidden></div>
-<p class="hint" id="folderHint">Klasör seçeneği destekleniyorsa videoları klasörden okuyabilir ve dönüştürme sonrası orijinalleri silebilirsin.</p>
-<div id="fileList" class="file-list"><div class="empty">Henüz video seçilmedi.</div></div>
+ <div class="section-head"><h2>1. Videoları seç</h2><span class="step-note">Toplu seçim desteklenir</span></div>
+ <div class="pickers">
+  <button id="folderBtn" class="primary">📁 Klasör seç</button>
+  <button id="filesBtn" class="secondary">＋ Dosyalardan video seç</button>
+  <input id="fileInput" type="file" multiple hidden>
+ </div>
+ <p class="hint" id="folderHint">Dosyalardan video seç düğmesi telefonun dosya seçicisini açar. Birden fazla video seçebilirsin. Klasör seçersen çıktılar da aynı klasöre kaydedilebilir.</p>
+ <div class="queue-head"><strong>Dönüşüm listesi</strong><span id="queueCount">0 video</span></div>
+ <div id="fileList" class="file-list"><div class="empty">Henüz video eklenmedi.</div></div>
+ <div class="queue-actions">
+  <button id="clearBtn" class="text-btn" disabled>Listeyi temizle</button>
+  <button id="addMoreBtn" class="secondary" disabled>＋ Daha fazla video ekle</button>
+ </div>
 </section>
+
 <section class="panel">
-<h2>2. Çıkış formatı</h2><label class="field-label" for="format">Video formatı</label>
-<select id="format"><option value="mp4">MP4 — H.264 + AAC (libVLC için önerilen)</option><option value="mkv">MKV — H.264 + AAC</option><option value="webm">WebM — VP9 + Opus</option><option value="avi">AVI — MPEG-4 + MP3</option></select>
-<div class="profile" id="profile">H.264 video • AAC ses • 8-bit yuv420p • MP4 faststart</div>
-<label class="check"><input type="checkbox" id="deleteOriginal"> Dönüştürme başarılı olursa orijinal videoyu sil</label>
-<p class="warning" id="deleteHint">Orijinal silme yalnızca klasör erişimi desteklenip klasör seçildiğinde kullanılabilir. Dosya seçiciyle seçilen videolar otomatik silinemez.</p>
-<button id="convertBtn" class="primary convert" disabled>Dönüştürmeyi başlat</button>
+ <h2>2. Çıkış formatı</h2>
+ <label class="field-label" for="format">Video formatı</label>
+ <select id="format"><option value="mp4">MP4 — H.264 + AAC (libVLC için önerilen)</option><option value="mkv">MKV — H.264 + AAC</option><option value="webm">WebM — VP9 + Opus</option><option value="avi">AVI — MPEG-4 + MP3</option></select>
+ <div class="profile" id="profile">H.264 video • AAC ses • 8-bit yuv420p • MP4 faststart</div>
+ <label class="check"><input type="checkbox" id="deleteOriginal"> Dönüştürme başarılı olursa orijinal videoyu sil</label>
+ <p class="warning" id="deleteHint">Orijinal silme yalnızca klasör erişimi desteklenip klasör seçildiğinde kullanılabilir. Normal dosya seçimiyle seçilen orijinaller otomatik silinemez.</p>
+ <button id="convertBtn" class="primary convert" disabled>Listedeki videoları dönüştür</button>
 </section>
-<section class="panel"><h2>3. Dönüştürme durumu</h2><div id="status" class="status">FFmpeg henüz yüklenmedi.</div><div class="progress"><div id="progressBar"></div></div><div id="progressText" class="progress-text">Bekleniyor</div><div id="results" class="results"></div></section>
+
+<section class="panel">
+ <h2>3. Dönüştürme durumu</h2>
+ <div id="status" class="status">Dönüştürmeye hazır.</div>
+ <div class="progress"><div id="progressBar"></div></div>
+ <div id="progressText" class="progress-text">Bekleniyor</div>
+ <div id="results" class="results"></div>
+</section>
 <footer>Videolar cihazından dışarı gönderilmez. Büyük videolarda telefonun belleği ve işlem gücü sınırlayıcı olabilir.</footer>
 </main>
-<script type="module" src="./app.js?v=5"></script>
+<script type="module" src="./app.js?v=10"></script>
 </body></html>
