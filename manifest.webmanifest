@@ -1,5 +1,1 @@
-{
- "name":"Film Dönüştürücü","short_name":"Dönüştürücü","start_url":"/","display":"standalone",
- "background_color":"#0b1120","theme_color":"#111827","orientation":"portrait",
- "icons":[{"src":"/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
-}
+{"name":"Film Dönüştürücü","short_name":"Dönüştürücü","start_url":"./","scope":"./","display":"standalone","background_color":"#0b1120","theme_color":"#101827","orientation":"portrait","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
