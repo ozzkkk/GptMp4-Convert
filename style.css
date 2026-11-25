@@ -5,3 +5,5 @@
 .hidden-input{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;left:-9999px!important}
 
 .hidden-input{display:none}.file-picker{flex:1 1 0;min-width:0;white-space:normal}
+
+.browser-launch{margin-left:auto;white-space:nowrap;padding:10px 12px;font-size:12px}.local{margin-left:0}@media(max-width:650px){header{flex-wrap:wrap}.browser-launch{margin-left:0}.local{margin-left:auto}}

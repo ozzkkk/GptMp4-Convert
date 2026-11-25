@@ -1,22 +1,31 @@
-# Film Dönüştürücü PWA — Tek Klasör
+# GptMp4 Convert
 
-Tüm uygulama dosyaları aynı klasördedir; `src` ve `public` klasörleri yoktur.
+GptMp4 Convert, Vite tabanlı video dönüştürme PWA'sı ve Windows masaüstü kabuğu içerir.
 
-## GitHub Pages için
-1. Bu ZIP'i telefonda açıp içindeki dosyaları çıkarın.
-2. GitHub'da bir depo oluşturun.
-3. ZIP içindeki dosyaların tamamını deponun ana dizinine yükleyin (index.html ana dizinde olmalı).
-4. GitHub Pages'i Settings → Pages bölümünden etkinleştirin.
-5. Vite tabanlı bu sürüm için derleme gerekir: GitHub Actions ile `npm install` ve `npm run build` çalıştırıp `dist` klasörünü yayınlayın. Alternatif olarak bilgisayarda `npm run build` sonrası `dist` içeriğini Pages'e yükleyin.
-
-## Yerel geliştirme
+## PWA geliştirme
 Node.js 20+:
 - `npm install`
 - `npm run dev`
-- Yayın paketi: `npm run build`
+- `npm run build`
 
-## Önemli
-- FFmpeg WebAssembly ilk çalıştırmada çekirdeği CDN'den indirir; ilk açılışta internet gerekir.
+## Windows masaüstü sürümü (ilk geliştirme aşaması)
+Masaüstü kabuğu Electron kullanır:
+- `npm install`
+- `npm run desktop:dev`
+- Taşınabilir Windows EXE: `npm run desktop:pack`
+
+İlk masaüstü prototipinde ana dönüştürme ekranı korunur. **Uygulama içi tarayıcı** ayrı bir uygulama penceresi açar. Medya algılama yalnızca bu pencerenin kendi Electron oturumundaki HTTP/HTTPS yanıtlarını izler; harici Chrome/Edge sekmeleri izlenmez.
+
+Şu an algılama katmanı doğrudan MP4/WebM, HLS (.m3u8), DASH (.mpd) ve Content-Type ile tanınabilen video/ses yanıtlarını listeler. Bu ilk temel katmandır; MSE tabanlı akışların ve Flux Downloader'ın diğer ayrıştırıcılarının entegrasyonu sonraki geliştirme adımıdır. Bu aşamada algılanan medya bağlantıları listelenip kopyalanabilir; henüz indirme motoru bağlanmamıştır.
+
+## Güvenlik ve kapsam
+- Uzak sayfalar Node.js veya yerel dosya sistemine erişemez.
+- Electron preload köprüleri sınırlı IPC metotları sunar.
+- Tarayıcı yalnızca HTTP/HTTPS adreslerini açar ve yeni pencere/popup isteklerini engeller.
+- DRM korumasını aşma veya korumalı akışları çözme hedeflenmez.
+- Bazı siteler özel oynatıcılar, imzalı URL'ler veya DRM kullandığından her videonun algılanacağı garanti edilemez.
+
+## Dönüştürme
+- FFmpeg WebAssembly çekirdeği ilk çalıştırmada CDN'den yüklenir.
 - MP4 profili H.264/AAC, yuv420p ve faststart kullanır.
-- Otomatik orijinal silme sadece desteklenen tarayıcıda klasör seçimi ile çalışabilir. Normal dosya seçicide orijinal silinmez.
-- Büyük videolar telefonda bellek/işlemci sınırına takılabilir.
+- Büyük videolar tarayıcı belleği ve işlemci sınırlarına takılabilir.
