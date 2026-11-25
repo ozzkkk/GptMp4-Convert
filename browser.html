@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GptMp4 Convert — Tarayıcı</title>
+<link rel="stylesheet" href="./browser.css">
+</head>
+<body>
+<header class="toolbar">
+  <div class="nav">
+    <button id="back" title="Geri">←</button>
+    <button id="forward" title="İleri">→</button>
+    <button id="reload" title="Yenile">↻</button>
+  </div>
+  <form id="addressForm">
+    <input id="address" type="url" placeholder="https://ornek.com" autocomplete="url" spellcheck="false">
+    <button type="submit">Git</button>
+  </form>
+  <span class="scope">Yalnızca bu pencere taranır</span>
+</header>
+<aside class="detected">
+  <div class="detected-head">
+    <strong>Algılanan medya</strong>
+    <span id="count">0</span>
+  </div>
+  <div id="mediaList" class="media-list"><p class="empty">Bu sayfada henüz medya akışı algılanmadı.</p></div>
+</aside>
+<script src="./browser.js"></script>
+</body>
+</html>
