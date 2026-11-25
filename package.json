@@ -1,9 +1,39 @@
 {
-  "name": "film-donusturucu-pwa",
-  "version": "1.0.0",
+  "name": "gptmp4-convert",
+  "version": "15.0.0",
   "private": true,
   "type": "module",
-  "scripts": {"dev": "vite --host 0.0.0.0", "build": "vite build", "preview": "vite preview --host 0.0.0.0"},
-  "dependencies": {"@ffmpeg/ffmpeg": "0.12.10", "@ffmpeg/util": "0.12.2"},
-  "devDependencies": {"vite": "^6.1.0"}
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "desktop:dev": "npm run build && electron .",
+    "desktop:pack": "npm run build && electron-builder --win portable"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "0.12.10",
+    "@ffmpeg/util": "0.12.2"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.12",
+    "vite": "^6.1.0"
+  },
+  "build": {
+    "appId": "com.gptmp4.convert",
+    "productName": "GptMp4 Convert",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "browser.html",
+      "browser.js",
+      "browser.css",
+      "package.json"
+    ],
+    "win": {
+      "target": ["portable"]
+    }
+  }
 }
