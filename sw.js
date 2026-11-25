@@ -1,6 +1,6 @@
-const CACHE_NAME = 'gptmp4-convert-v16';
+const CACHE_NAME = 'gptmp4-convert-v17';
 const ASSETS = [
-  './app.js?v=15',
+  './app.js?v=15.1',
   './style.css',
   './manifest.webmanifest',
   './icon.svg',
