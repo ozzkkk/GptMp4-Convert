@@ -19,6 +19,7 @@
  <div class="pickers">
   <button id="folderBtn" class="primary" type="button">📁 Klasör seç</button>
   <label class="secondary file-picker"><span>＋ Dosyalardan video seç</span><input id="fileInput" class="file-input-overlay" type="file" accept="video/*,.mp4,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m2ts,.m4v,.webm,.mpeg,.mpg,.3gp" multiple></label>
+  <input id="folderInput" class="hidden-input" type="file" accept="*/*" webkitdirectory directory multiple>
  </div>
  <p class="hint" id="folderHint">Dosyalardan video seç düğmesi telefonun dosya seçicisini açar. Birden fazla video seçebilirsin. Klasör seçersen çıktılar da aynı klasöre kaydedilebilir.</p>
  <div class="queue-head"><strong>Dönüşüm listesi</strong><span id="queueCount">0 video</span></div>
@@ -48,5 +49,5 @@
 </section>
 <footer>Videolar cihazından dışarı gönderilmez. Büyük videolarda telefonun belleği ve işlem gücü sınırlayıcı olabilir.</footer>
 </main>
-<script type="module" src="./app.js?v=12"></script>
+<script type="module" src="./app.js?v=13"></script>
 </body></html>
