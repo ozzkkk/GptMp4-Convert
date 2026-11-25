@@ -1,10 +1,10 @@
 
-const CACHE_NAME = 'film-donusturucu-cache-v14';
+const CACHE_NAME = 'film-donusturucu-cache-v15';
 
 const ASSETS = [
   './',
   './index.html',
-  './app.js?v=14',
+  './app.js?v=15',
   './style.css',
   './manifest.webmanifest',
   './icon.svg',
