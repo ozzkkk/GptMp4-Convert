@@ -1,5 +1,65 @@
-const CACHE_NAME='film-donusturucu-cache-v12';
-const ASSETS=['./','./index.html','./app.js?v=12','./style.css','./manifest.webmanifest','./icon.svg','./worker.js'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)));await self.clients.claim()})()));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;e.respondWith((async()=>{const c=await caches.open(CACHE_NAME);const hit=await c.match(e.request);if(hit)return hit;try{const r=await fetch(e.request);if(r.ok)await c.put(e.request,r.clone());return r}catch(err){return e.request.mode==='navigate'?(await c.match('./index.html')||Response.error()):Response.error()}})())});
+
+const CACHE_NAME = 'film-donusturucu-cache-v13';
+
+const ASSETS = [
+  './',
+  './index.html',
+  './app.js?v=13',
+  './style.css',
+  './manifest.webmanifest',
+  './icon.svg',
+  './worker.js'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+
+    await Promise.all(
+      keys
+        .filter(key => key !== CACHE_NAME)
+        .map(key => caches.delete(key))
+    );
+
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+
+  if (url.origin !== self.location.origin) return;
+
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(event.request);
+
+    if (cached) return cached;
+
+    try {
+      const response = await fetch(event.request);
+
+      if (response.ok) {
+        await cache.put(event.request, response.clone());
+      }
+
+      return response;
+    } catch (error) {
+      if (event.request.mode === 'navigate') {
+        return await cache.match('./index.html') || Response.error();
+      }
+
+      return Response.error();
+    }
+  })());
+});
