@@ -203,49 +203,25 @@ async function addFiles(files, handles = []) {
 }
 
 async function chooseVideos() {
-  // Dosya sistemi erişimi destekleniyorsa gerçek dosya tutamaçları alınır.
+  // Native handles are required to write back to the exact selected files.
   if (window.showOpenFilePicker) {
     try {
       const handles = await window.showOpenFilePicker({
         multiple: true,
-        types: [{
-          description: 'Video dosyaları',
-          accept: {
-            'video/*': [
-              '.mp4', '.mkv', '.avi', '.mov', '.wmv',
-              '.flv', '.ts', '.mts', '.m2ts', '.m4v',
-              '.webm', '.mpeg', '.mpg', '.3gp'
-            ]
-          }
-        }]
+        types: [{ description: 'Video dosyaları', accept: { 'video/*': ['.mp4','.mkv','.avi','.mov','.wmv','.flv','.ts','.mts','.m2ts','.m4v','.webm','.mpeg','.mpg','.3gp'] } }]
       });
-
       const files = [];
-
-      for (const handle of handles) {
-        files.push(await handle.getFile());
-      }
-
+      for (const handle of handles) files.push(await handle.getFile());
       await addFiles(files, handles);
-
-      $('deleteHint').textContent =
-        'Aynı uzantılı çıktı, izin verilirse seçilen orijinal dosyanın yerine yazılır. Uzantı değişecekse aynı klasöre erişmek için Klasör Seç özelliğini kullan.';
-
+      $('deleteHint').textContent = 'Aynı uzantılı çıktı, izin verilirse seçilen orijinal dosyanın yerine yazılır. Çıkış uzantısı değişecekse aynı klasöre kaydetmek için Klasör seç özelliğini kullan.';
       return;
-
     } catch (e) {
       if (e?.name === 'AbortError') return;
-
-      console.warn(
-        'Gelişmiş dosya seçici kullanılamadı; standart seçici açılıyor.',
-        e
-      );
+      console.warn('Gelişmiş dosya seçici kullanılamadı; standart seçici açılıyor.', e);
     }
   }
-
   fileInput.click();
 }
-
 filePickBtn.onclick = chooseVideos;
 $('addMoreBtn').onclick = chooseVideos;
 
@@ -282,7 +258,7 @@ folderInput?.addEventListener('change', async () => {
       deleteOriginal.disabled = true;
 
       $('deleteHint').textContent =
-        'Bu yöntem klasöre yazma izni vermez. Çıktılar indirilecektir; orijinaller otomatik silinemez.';
+        'Bu tarayıcıda klasör, dosya seçici yöntemiyle açıldı. Çıktılar indirilecektir; tarayıcı güvenlik kısıtlaması nedeniyle orijinaller otomatik silinemez.';
 
       status.textContent =
         `Seçilen klasörde ${picked.length} dosya bulundu; videolar listeye eklendi.`;
@@ -334,7 +310,7 @@ $('folderBtn').onclick = async () => {
       await addFiles(fs, hs);
 
       $('deleteHint').textContent =
-        'Klasör erişimi açık. Çıktılar aynı klasöre kaydedilir; eski dosyalar yalnızca çıktı doğrulandıktan sonra silinir.';
+        'Klasör erişimi açık. Çıktılar aynı klasöre kaydedilir; orijinaller yalnızca çıktı doğrulandıktan sonra silinir.';
 
       status.textContent =
         `Klasörden ${fs.length} video bulundu ve listeye eklendi.`;
@@ -507,76 +483,46 @@ async function saveOutput(data, name, item) {
   const sourceExt = item.file.name.split('.').pop().toLowerCase();
   const targetExt = format.value.toLowerCase();
 
-  // Aynı uzantı: dönüştürülmüş dosyayı seçilen orijinalin yerine yaz.
+  // Same extension: replace the selected file directly, after conversion is complete.
   if (item.handle && sourceExt === targetExt) {
-    const permission = await item.handle.queryPermission({
-      mode: 'readwrite'
-    });
-
-    const granted = permission === 'granted'
-      ? permission
-      : await item.handle.requestPermission({ mode: 'readwrite' });
-
+    const permission = await item.handle.queryPermission({ mode: 'readwrite' });
+    const granted = permission === 'granted' ? permission :
+      await item.handle.requestPermission({ mode: 'readwrite' });
     if (granted !== 'granted') {
-      throw new Error(
-        'Orijinal dosyanın yerine yazmak için dosya erişim izni verilmedi.'
-      );
+      throw new Error('Orijinal dosyanın yerine yazmak için dosya erişim izni verilmedi.');
     }
-
     const writable = await item.handle.createWritable();
-
     await writable.write(data);
     await writable.close();
-
     const saved = await item.handle.getFile();
-
     if (!saved.size || saved.size !== data.length) {
       throw new Error('Değiştirilen dosya doğrulanamadı.');
     }
-
     return `Aynı klasörde orijinal dosyanın yerine yazıldı: ${item.file.name}`;
   }
 
-  // Klasör izni varsa farklı uzantılı dosyayı aynı klasöre kaydet.
+  // Folder access allows creating a sibling with a new extension.
   if (directoryHandle && item.handle) {
-    const h = await directoryHandle.getFileHandle(name, {
-      create: true
-    });
-
+    const h = await directoryHandle.getFileHandle(name, { create: true });
     const w = await h.createWritable();
-
     await w.write(data);
     await w.close();
-
     const saved = await h.getFile();
-
     if (saved.size !== data.length || !saved.size) {
       throw new Error('Çıktı doğrulanamadı; orijinal dosya korunuyor.');
     }
-
-    if (deleteOriginal.checked) {
-      await directoryHandle.removeEntry(item.file.name);
-    }
-
-    return `Aynı klasöre kaydedildi: ${name}${
-      deleteOriginal.checked ? ' · Eski dosya silindi' : ''
-    }`;
+    if (deleteOriginal.checked) await directoryHandle.removeEntry(item.file.name);
+    return `Aynı klasöre kaydedildi: ${name}${deleteOriginal.checked ? ' · Eski dosya silindi' : ''}`;
   }
 
-  // Sadece dosya tutamacı varsa üst klasöre erişim yoktur.
-  // Bu durumda yanlışlıkla indirme başlatma veya orijinali silme.
+  // File handles do not expose their parent directory. Do not silently download
+  // a differently named format or delete the original in this case.
   if (item.handle && sourceExt !== targetExt) {
-    throw new Error(
-      `Çıkış uzantısı .${targetExt}, kaynak uzantısı .${sourceExt}. ` +
-      'Tarayıcı seçilen dosyanın üst klasörüne erişim vermiyor. ' +
-      'Yeni dosyayı yanına kaydetmek ve eskisini silmek için ' +
-      '“Klasör Seç” düğmesini kullan. Orijinal dosya korunuyor.'
-    );
+    throw new Error(`Çıkış uzantısı .${targetExt}, kaynak uzantısı .${sourceExt}. Tarayıcı seçilen dosyanın üst klasörüne erişim vermiyor. Yeni dosyayı yanına kaydetmek ve eskisini silmek için “Klasör seç” düğmesini kullan. Orijinal dosya korunuyor.`);
   }
 
   download(data, name);
-
-  return 'İndirme başlatıldı. Standart dosya seçici aynı klasöre yazma izni vermiyor.';
+  return 'İndirme başlatıldı (standart dosya seçici aynı klasöre yazma izni vermiyor)';
 }
 
 convertBtn.onclick = async () => {

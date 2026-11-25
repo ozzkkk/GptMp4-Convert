@@ -18,10 +18,10 @@
  <div class="section-head"><h2>1. Videoları seç</h2><span class="step-note">Toplu seçim desteklenir</span></div>
  <div class="pickers">
   <button id="folderBtn" class="primary" type="button">📁 Klasör seç</button>
-  <label class="secondary file-picker"><span>＋ Dosyalardan video seç</span><input id="fileInput" class="file-input-overlay" type="file" accept="video/*,.mp4,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m2ts,.m4v,.webm,.mpeg,.mpg,.3gp" multiple></label>
+  <button id="filePickBtn" class="secondary file-picker" type="button">＋ Dosyalardan video seç</button><input id="fileInput" class="hidden-input" type="file" accept="video/*,.mp4,.mkv,.avi,.mov,.wmv,.flv,.ts,.mts,.m2ts,.m4v,.webm,.mpeg,.mpg,.3gp" multiple>
   <input id="folderInput" class="hidden-input" type="file" accept="*/*" webkitdirectory directory multiple>
  </div>
- <p class="hint" id="folderHint">Dosyalardan video seç düğmesi telefonun dosya seçicisini açar. Birden fazla video seçebilirsin. Klasör seçersen çıktılar da aynı klasöre kaydedilebilir.</p>
+ <p class="hint" id="folderHint">Desteklenen tarayıcılarda seçtiğin dosyalar aynı klasörde dönüştürülüp eski dosyanın yerine yazılır. Bunun için dosya erişim izni gerekir. Uzantı değişecekse Klasör seç özelliğini kullan.</p>
  <div class="queue-head"><strong>Dönüşüm listesi</strong><span id="queueCount">0 video</span></div>
  <div id="fileList" class="file-list"><div class="empty">Henüz video eklenmedi.</div></div>
  <div class="queue-actions">
@@ -35,7 +35,7 @@
  <label class="field-label" for="format">Video formatı</label>
  <select id="format"><option value="mp4">MP4 — H.264 + AAC (libVLC için önerilen)</option><option value="mkv">MKV — H.264 + AAC</option><option value="webm">WebM — VP9 + Opus</option><option value="avi">AVI — MPEG-4 + MP3</option></select>
  <div class="profile" id="profile">H.264 video • AAC ses • 8-bit yuv420p • MP4 faststart</div>
- <label class="check"><input type="checkbox" id="deleteOriginal"> Dönüştürme başarılı olursa orijinal videoyu sil</label>
+ <label class="check"><input type="checkbox" id="deleteOriginal" checked> Dönüştürme başarılı olursa orijinal videoyu sil</label>
  <p class="warning" id="deleteHint">Orijinal silme yalnızca klasör erişimi desteklenip klasör seçildiğinde kullanılabilir. Normal dosya seçimiyle seçilen orijinaller otomatik silinemez.</p>
  <button id="convertBtn" class="primary convert" disabled>Listedeki videoları dönüştür</button>
 </section>
