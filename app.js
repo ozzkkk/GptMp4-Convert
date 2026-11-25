@@ -14,6 +14,18 @@ const progressBar = $('progressBar');
 const progressText = $('progressText');
 const results = $('results');
 
+$('browserBtn')?.addEventListener('click', async () => {
+  if (!window.desktopAPI?.openBrowser) {
+    status.textContent = 'Uygulama içi medya tarayıcısı masaüstü sürümünde kullanılabilir. Bu PWA sürümü diğer sitelerin medya akışlarını göremez.';
+    return;
+  }
+  try {
+    await window.desktopAPI.openBrowser();
+  } catch (e) {
+    status.textContent = `Tarayıcı açılamadı: ${e?.message || String(e)}`;
+  }
+});
+
 let selected = [];
 let directoryHandle = null;
 let ffmpeg = null;
